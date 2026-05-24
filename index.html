@@ -1049,9 +1049,25 @@
   }
 
   function buildDMCMessage(d) {
-    const cl = d.numChildren==='0' ? 'no children' : `${d.numChildren} child${d.numChildren>1?'ren':''} (${d.childAges})`;
+    const cl = d.numChildren==='0' ? '' : `${d.numChildren} child${parseInt(d.numChildren)>1?'ren':''} (${d.childAges})`;
     const pax = totalPax(d);
-    return `Dear Team,\n\nWe are pleased to share a new tour enquiry received by KL Voyager and would like to request your best available package and rates for the details below.\n\nDESTINATION(S)  : ${d.destinations}\nTOUR TYPE       : ${d.tourType}\nTRAVEL DATE     : ${d.travelDate}\nDURATION        : ${d.duration}\nGROUP SIZE      : ${pax} (${d.numAdults} adult${d.numAdults>1?'s':''}, ${cl})\nNATIONALITY     : ${d.nationality}\n\nPREFERENCES\nAccommodation   : ${d.accommodation}\nMeal Plan       : ${d.meals}\nBudget Range    : ${d.budget}\n\nSPECIAL NOTES   : ${d.notes}\n\nKindly share your best quote at the earliest so we can revert to our guest promptly. Please include a day-wise itinerary, inclusions/exclusions, and any seasonal availability notes.\n\nLooking forward to your response.\n\nWarm regards,\nOperations Team\nKL Voyager\nenquiry.klvoyager.com`;
+    const rows = [
+      `GUEST NAME      : ${d.fullName}`,
+      ``,
+      `DESTINATION(S)  : ${d.destinations}`,
+      `TOUR TYPE       : ${d.tourType}`,
+      `TRAVEL DATE     : ${d.travelDate}`,
+    ];
+    if (d.duration !== 'Not specified') rows.push(`DURATION        : ${d.duration}`);
+    rows.push(`GROUP SIZE      : ${pax}`);
+    if (d.nationality !== 'Not specified') rows.push(`NATIONALITY     : ${d.nationality}`);
+    const prefs = [];
+    if (d.accommodation !== 'Not specified') prefs.push(`Accommodation   : ${d.accommodation}`);
+    if (d.meals !== 'Not specified') prefs.push(`Meal Plan       : ${d.meals}`);
+    if (d.budget !== 'Not specified') prefs.push(`Budget Range    : ${d.budget}`);
+    if (prefs.length) { rows.push(''); rows.push('PREFERENCES'); rows.push(...prefs); }
+    if (d.notes !== 'None') { rows.push(''); rows.push(`SPECIAL NOTES   : ${d.notes}`); }
+    return `Dear Team,\n\nWe are pleased to share a new tour enquiry received by KL Voyager and would like to request your best available package and rates for the details below.\n\n${rows.join('\n')}\n\nKindly share your best quote at the earliest so we can revert to our guest promptly. Please include a day-wise itinerary, inclusions/exclusions, and any seasonal availability notes.\n\nLooking forward to your response.\n\nWarm regards,\nOperations Team\nKL Voyager\nenquiry.klvoyager.com`;
   }
 
   function buildWhatsAppMsg(d) {
@@ -1064,6 +1080,8 @@
     if (!a) return 'Not specified';
     return `${a+c} (${a} adult${a>1?'s':''}${c?', '+c+' child'+(c>1?'ren':''):''})`; 
   }
+
+  document.getElementById('travelDate').min = new Date().toISOString().split('T')[0];
 
   function v(id) { return document.getElementById(id)?.value?.trim()||''; }
   function resetForm() {

@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     );
 
     await client.messages.create({
-      from: `whatsapp:${process.env.TWILIO_WHATSAPP_FROM}`, // e.g. whatsapp:+14155238886
+      from: `whatsapp:${process.env.TWILIO_WHATSAPP_FROM || '+14155238886'}`,
       to:   `whatsapp:${to}`,
       body: message,
     });

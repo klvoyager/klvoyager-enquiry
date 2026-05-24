@@ -614,12 +614,15 @@
             <input type="text" id="fullName" placeholder="Your full name"/>
           </div>
           <div class="field">
-            <label>Email Address <span class="req">*</span></label>
+            <label>Email Address <span class="opt">(or phone)</span></label>
             <input type="email" id="email" placeholder="your@email.com"/>
           </div>
           <div class="field">
-            <label>Phone / WhatsApp <span class="req">*</span></label>
+            <label>Phone / WhatsApp <span class="opt">(or email)</span></label>
             <input type="tel" id="phone" placeholder="+91 98765 43210"/>
+          </div>
+          <div class="field full" style="margin-top:-6px;">
+            <p style="font-size:11px;color:#A07840;font-weight:500;">At least one of email or phone is required.</p>
           </div>
           <div class="field">
             <label>Nationality</label>
@@ -979,8 +982,8 @@
       submittedAt:new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}),
     };
 
-    if (!data.fullName||!data.email||!data.phone||!data.tourType||!data.travelDate||data.destinations==='Not specified') { showStatus('error','Please fill in all required fields and select at least one destination.'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { showStatus('error','Please enter a valid email address.'); return; }
+    if (!data.fullName||(!data.email&&!data.phone)||!data.tourType||!data.travelDate||data.destinations==='Not specified') { showStatus('error','Please fill in all required fields, provide at least one contact (email or phone), and select at least one destination.'); return; }
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { showStatus('error','Please enter a valid email address.'); return; }
     if (!data.numAdults||data.numAdults==='Not specified') { showStatus('error','Please select the number of adults.'); return; }
 
     setLoading(true);
@@ -1035,7 +1038,7 @@
     } catch(err) { console.error('WhatsApp:', err); }
 
     resetForm(); setLoading(false);
-    if (emailOk || netlifyOk) showStatus('success',`✓ Enquiry submitted! Our team will contact you at ${data.email} within 24 hours.`);
+    if (emailOk || netlifyOk) showStatus('success',`✓ Enquiry submitted! Our team will contact you at ${data.email||data.phone} within 24 hours.`);
     else showStatus('error','Submission failed. Please try again or contact us directly.');
   }
 

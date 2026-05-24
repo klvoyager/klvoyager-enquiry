@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tour Enquiry | KL Voyager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    /* Apple Silver / Aluminum palette
+       --apple-bg:       #F5F5F7   page background (apple.com gray)
+       --apple-card:     #FFFFFF   card surface
+       --apple-mid:      #E8E8ED   input fill / section bg
+       --apple-border:   #D2D2D7   borders (apple's divider color)
+       --apple-text:     #1D1D1F   primary text (apple.com body)
+       --apple-secondary:#6E6E73   secondary text (apple.com captions)
+       --apple-accent:   #0071E3   apple blue
+       --apple-gold:     #A07840   warm accent for brand                */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: #F5F5F7; }
+
+    body {
+      font-family: -apple-system, 'DM Sans', 'SF Pro Text', sans-serif;
+      background: #F5F5F7;
+      color: #1D1D1F;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 52px 24px 88px;
+    }
+
+    /* ── Header ── */
+    .header { text-align: center; margin-bottom: 44px; }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .logo-icon { width: 38px; height: 38px; }
+
+    .logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #A07840;
+    }
+
+    .divider {
+      width: 56px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #A07840, transparent);
+      margin: 0 auto 22px;
+    }
+
+    .header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4.5vw, 46px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: #1D1D1F;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .header h1 em { font-style: italic; color: #A07840; }
+
+    .header p {
+      font-size: 15px;
+      color: #6E6E73;
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Form Card ── */
+    .form-card {
+      background: #FFFFFF;
+      border: 1px solid #D2D2D7;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow:
+        0 1px 0 rgba(0,0,0,0.04),
+        0 4px 16px rgba(0,0,0,0.06),
+        0 12px 40px rgba(0,0,0,0.04);
+    }
+
+    .form-section {
+      padding: 28px 32px;
+      border-bottom: 1px solid #E8E8ED;
+    }
+
+    .form-section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #A07840;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E8E8ED;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    @media (max-width: 600px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .form-section { padding: 22px 18px; }
+      .form-footer { flex-direction: column; align-items: stretch; }
+      .btn-submit { justify-content: center; }
+      .travellers-row { grid-template-columns: 1fr; }
+    }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #6E6E73;
+    }
+
+    label .opt {
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #AEAEB2;
+      margin-left: 4px;
+    }
+
+    label span.req { color: #A07840; margin-left: 2px; }
+
+    input, select, textarea {
+      background: #F5F5F7;
+      border: 1px solid #D2D2D7;
+      border-radius: 10px;
+      color: #1D1D1F;
+      font-family: -apple-system, 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      padding: 11px 13px;
+      width: 100%;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: #AEAEB2; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #0071E3;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+    }
+
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236E6E73' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-color: #F5F5F7;
+      padding-right: 34px;
+    }
+
+    select option { background: #fff; color: #1D1D1F; }
+    textarea { resize: vertical; min-height: 90px; line-height: 1.65; }
+
+    /* ── Destination Search ── */
+    .dest-search-wrap { position: relative; margin-bottom: 10px; }
+
+    .dest-search-input {
+      background: #F5F5F7;
+      border: 1px solid #D2D2D7;
+      border-radius: 10px;
+      color: #1D1D1F;
+      font-family: -apple-system, 'DM Sans', sans-serif;
+      font-size: 15px;
+      padding: 11px 36px 11px 13px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    .dest-search-input:focus {
+      border-color: #0071E3;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+    }
+
+    .dest-search-input::placeholder { color: #AEAEB2; }
+
+    .dest-search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .dest-suggestions {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0; right: 0;
+      background: #FFFFFF;
+      border: 1px solid #D2D2D7;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      z-index: 100;
+      max-height: 210px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .dest-suggestions.open { display: block; }
+
+    .dest-suggestion-item {
+      padding: 10px 14px;
+      font-size: 14px;
+      color: #1D1D1F;
+      cursor: pointer;
+      transition: background 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dest-suggestion-item:first-child { border-radius: 12px 12px 0 0; }
+    .dest-suggestion-item:last-child  { border-radius: 0 0 12px 12px; }
+
+    .dest-suggestion-item:hover,
+    .dest-suggestion-item.highlighted {
+      background: #F5F5F7;
+      color: #0071E3;
+    }
+
+    .dest-suggestions::-webkit-scrollbar { width: 4px; }
+    .dest-suggestions::-webkit-scrollbar-track { background: transparent; }
+    .dest-suggestions::-webkit-scrollbar-thumb { background: #D2D2D7; border-radius: 2px; }
+
+    /* Selected destination pills */
+    .selected-tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 4px;
+    }
+
+    .sel-dest-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px 5px 12px;
+      border-radius: 20px;
+      background: #E8E8ED;
+      border: 1px solid #D2D2D7;
+      color: #1D1D1F;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .sel-dest-pill button {
+      background: #AEAEB2;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: 0;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 12px;
+      line-height: 1;
+      transition: background 0.15s;
+    }
+
+    .sel-dest-pill button:hover { background: #6E6E73; }
+
+    /* Quick-pick tags */
+    .quick-picks-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 12px;
+      background: #F5F5F7;
+      border: 1px solid #D2D2D7;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    .quick-label {
+      width: 100%;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #AEAEB2;
+      margin-bottom: 4px;
+    }
+
+    .dest-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid #D2D2D7;
+      background: #FFFFFF;
+      color: #1D1D1F;
+      font-size: 13px;
+      font-family: -apple-system, 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .dest-tag:hover { border-color: #0071E3; color: #0071E3; background: #F0F6FF; }
+
+    .dest-tag.active {
+      background: #0071E3;
+      border-color: #0071E3;
+      color: #FFFFFF;
+      font-weight: 500;
+    }
+
+    .dest-tag .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .dest-tag.active .dot { opacity: 1; }
+
+    /* ── Travellers ── */
+    .travellers-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .children-ages-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #6E6E73;
+      margin-bottom: 8px;
+    }
+
+    .ages-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .age-item { display: flex; flex-direction: column; gap: 4px; min-width: 76px; }
+
+    .age-item label {
+      font-size: 10px;
+      color: #AEAEB2;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+
+    .age-item select { padding: 8px 28px 8px 10px; font-size: 13px; }
+
+    .children-hint {
+      font-size: 12px;
+      color: #AEAEB2;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* ── Footer ── */
+    .form-footer {
+      padding: 22px 32px;
+      background: #F5F5F7;
+      border-top: 1px solid #E8E8ED;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-note { font-size: 12px; color: #AEAEB2; line-height: 1.6; }
+    .footer-note strong { color: #6E6E73; font-weight: 500; }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #0071E3;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 980px;
+      font-family: -apple-system, 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .btn-submit:hover { background: #0077ED; }
+    .btn-submit:active { transform: scale(0.98); background: #006CDC; }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-submit svg { transition: transform 0.2s; }
+    .btn-submit:hover svg { transform: translateX(3px); }
+
+    /* ── Status ── */
+    .status {
+      display: none;
+      margin: 16px 32px;
+      padding: 13px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .status.success { display: block; background: #F0FFF4; border: 1px solid #34C759; color: #1A7F37; }
+    .status.error   { display: block; background: #FFF5F5; border: 1px solid #FF3B30; color: #C0392B; }
+
+    /* ── Submissions ── */
+    .submissions-wrap { margin-top: 44px; }
+
+    .submissions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .submissions-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: #1D1D1F;
+    }
+
+    .badge {
+      background: #E8E8ED;
+      border: 1px solid #D2D2D7;
+      color: #6E6E73;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 44px 24px;
+      color: #AEAEB2;
+      font-size: 14px;
+      background: #FFFFFF;
+      border: 1px dashed #D2D2D7;
+      border-radius: 12px;
+    }
+
+    .enquiry-card {
+      background: #FFFFFF;
+      border: 1px solid #D2D2D7;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      animation: slideIn 0.25s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-head {
+      padding: 14px 18px;
+      background: #F5F5F7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s;
+    }
+
+    .card-head:hover { background: #EBEBF0; }
+
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: #1D1D1F;
+    }
+
+    .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .card-dest { font-size: 12px; color: #0071E3; font-weight: 500; }
+    .card-time { font-size: 11px; color: #AEAEB2; }
+
+    .card-chevron { color: #AEAEB2; transition: transform 0.2s; flex-shrink: 0; }
+    .card-chevron.open { transform: rotate(180deg); }
+
+    .card-body { display: none; padding: 16px 18px; border-top: 1px solid #E8E8ED; }
+    .card-body.open { display: block; }
+
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px 18px; }
+
+    .detail-item label {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: #AEAEB2;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    .detail-item p { font-size: 13px; color: #1D1D1F; }
+    .detail-item.wide { grid-column: 1 / -1; }
+
+    .spinner {
+      width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="header">
+    <div class="logo-mark">
+      <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" stroke="#A07840" stroke-width="1"/>
+        <path d="M20 8 C13 8 8 14 8 20 C8 26 13 32 20 32 C27 32 32 26 32 20" stroke="#A07840" stroke-width="1" fill="none"/>
+        <path d="M20 8 L20 32 M8 20 L32 20" stroke="#A07840" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="20" cy="20" r="3" fill="#A07840"/>
+        <path d="M28 10 L32 8 L30 12 Z" fill="#A07840"/>
+      </svg>
+      <span class="logo-text">KL VOYAGER</span>
+    </div>
+    <div class="divider"></div>
+    <h1>Plan Your <em>Dream Journey</em></h1>
+    <p>Share your travel aspirations with us. Our specialists will craft a bespoke itinerary tailored exclusively for you.</p>
+  </div>
+
+  <div class="form-card">
+
+    <div id="statusMsg" class="status"></div>
+
+    <form id="enquiryForm" name="tour-enquiry" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <!-- Netlify hidden fields -->
+      <input type="hidden" name="form-name" value="tour-enquiry"/>
+      <p style="display:none;"><input name="bot-field"/></p>
+      <!-- These hidden fields mirror form data for Netlify capture -->
+      <input type="hidden" name="Full Name" id="nl-fullName"/>
+      <input type="hidden" name="Email" id="nl-email"/>
+      <input type="hidden" name="Phone" id="nl-phone"/>
+      <input type="hidden" name="Nationality" id="nl-nationality"/>
+      <input type="hidden" name="Tour Type" id="nl-tourType"/>
+      <input type="hidden" name="Travel Date" id="nl-travelDate"/>
+      <input type="hidden" name="Duration" id="nl-duration"/>
+      <input type="hidden" name="Destinations" id="nl-destinations"/>
+      <input type="hidden" name="Adults" id="nl-numAdults"/>
+      <input type="hidden" name="Children" id="nl-numChildren"/>
+      <input type="hidden" name="Child Ages" id="nl-childAges"/>
+      <input type="hidden" name="Budget" id="nl-budget"/>
+      <input type="hidden" name="Accommodation" id="nl-accommodation"/>
+      <input type="hidden" name="Meals" id="nl-meals"/>
+      <input type="hidden" name="Contact Preference" id="nl-contactPref"/>
+      <input type="hidden" name="Source" id="nl-source"/>
+      <input type="hidden" name="Notes" id="nl-notes"/>
+
+      <!-- Personal Details -->
+      <div class="form-section">
+        <div class="section-label">Personal Details</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" placeholder="Your full name"/>
+          </div>
+          <div class="field">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="your@email.com"/>
+          </div>
+          <div class="field">
+            <label>Phone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="+91 98765 43210"/>
+          </div>
+          <div class="field">
+            <label>Nationality</label>
+            <input type="text" id="nationality" placeholder="e.g. Indian"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour Preferences -->
+      <div class="form-section">
+        <div class="section-label">Tour Preferences</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Tour Type <span class="req">*</span></label>
+            <select id="tourType">
+              <option value="">Select tour type</option>
+              <option>Leisure &amp; Holiday</option>
+              <option>Honeymoon / Romantic</option>
+              <option>Family Vacation</option>
+              <option>Adventure &amp; Trekking</option>
+              <option>Cultural &amp; Heritage</option>
+              <option>Business &amp; MICE</option>
+              <option>Pilgrimage</option>
+              <option>Custom / Special Interest</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Preferred Travel Date <span class="req">*</span></label>
+            <input type="date" id="travelDate"/>
+          </div>
+          <div class="field">
+            <label>Trip Duration</label>
+            <select id="duration">
+              <option value="">Select duration</option>
+              <option>Weekend (2–3 days)</option>
+              <option>Short (4–6 days)</option>
+              <option>Week (7 days)</option>
+              <option>Extended (8–14 days)</option>
+              <option>Long-haul (15+ days)</option>
+              <option>Flexible / Open</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>How did you hear about us?</label>
+            <select id="source">
+              <option value="">Select source</option>
+              <option>Google Search</option>
+              <option>Instagram</option>
+              <option>Facebook</option>
+              <option>WhatsApp</option>
+              <option>Friend / Referral</option>
+              <option>Travel Fair / Exhibition</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Destinations -->
+        <div class="field" style="margin-top:16px;">
+          <label>Preferred Destinations <span class="req">*</span></label>
+
+          <div class="dest-search-wrap">
+            <input type="text" id="destSearchInput" class="dest-search-input"
+              placeholder="Type a destination to search and add…" autocomplete="off"/>
+            <svg class="dest-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="#AEAEB2" stroke-width="1.4"/>
+              <path d="M10 10l3 3" stroke="#AEAEB2" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <div class="dest-suggestions" id="destSuggestions"></div>
+          </div>
+
+          <div id="selectedTagsWrap" class="selected-tags-wrap" style="margin-bottom:6px;"></div>
+
+          <div class="quick-picks-wrap">
+            <span class="quick-label">Quick picks</span>
+            <span class="dest-tag" data-val="Kerala">           <span class="dot"></span>Kerala</span>
+            <span class="dest-tag" data-val="Rajasthan">        <span class="dot"></span>Rajasthan</span>
+            <span class="dest-tag" data-val="Goa">              <span class="dot"></span>Goa</span>
+            <span class="dest-tag" data-val="Himachal Pradesh"> <span class="dot"></span>Himachal</span>
+            <span class="dest-tag" data-val="Kashmir">          <span class="dot"></span>Kashmir</span>
+            <span class="dest-tag" data-val="Uttarakhand">      <span class="dot"></span>Uttarakhand</span>
+            <span class="dest-tag" data-val="North East India"> <span class="dot"></span>North East</span>
+            <span class="dest-tag" data-val="Andaman Islands">  <span class="dot"></span>Andaman</span>
+            <span class="dest-tag" data-val="Dubai">            <span class="dot"></span>Dubai</span>
+            <span class="dest-tag" data-val="Thailand">         <span class="dot"></span>Thailand</span>
+            <span class="dest-tag" data-val="Maldives">         <span class="dot"></span>Maldives</span>
+            <span class="dest-tag" data-val="Singapore">        <span class="dot"></span>Singapore</span>
+            <span class="dest-tag" data-val="Europe">           <span class="dot"></span>Europe</span>
+            <span class="dest-tag" data-val="USA / Canada">     <span class="dot"></span>USA / Canada</span>
+            <span class="dest-tag" data-val="Australia / NZ">   <span class="dot"></span>Australia</span>
+            <span class="dest-tag" data-val="Africa / Safari">  <span class="dot"></span>Africa</span>
+          </div>
+          <input type="hidden" id="destinations"/>
+        </div>
+      </div>
+
+      <!-- Travellers -->
+      <div class="form-section">
+        <div class="section-label">Traveller Details</div>
+        <div class="travellers-row">
+          <div class="field">
+            <label>Number of Adults <span class="req">*</span></label>
+            <select id="numAdults">
+              <option value="">Select</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>10+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Number of Children <span class="opt">(optional)</span></label>
+            <select id="numChildren" onchange="renderChildAges()">
+              <option value="0">None</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option>
+            </select>
+          </div>
+        </div>
+        <div id="childAgesWrap" style="display:none; margin-top:4px;">
+          <div class="children-ages-label">Age of each child</div>
+          <div class="ages-grid" id="agesGrid"></div>
+          <p class="children-hint">Age at time of travel helps us suggest suitable activities and stay options.</p>
+        </div>
+      </div>
+
+      <!-- Budget & Stay -->
+      <div class="form-section">
+        <div class="section-label">Budget &amp; Stay</div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Budget (per person)</label>
+            <select id="budget">
+              <option value="">Select budget</option>
+              <option>Economy (Under ₹20,000)</option>
+              <option>Mid-range (₹20,000–₹50,000)</option>
+              <option>Comfort (₹50,000–₹1,00,000)</option>
+              <option>Luxury (₹1,00,000–₹2,50,000)</option>
+              <option>Ultra Luxury (₹2,50,000+)</option>
+              <option>Flexible / Tell me options</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Accommodation</label>
+            <select id="accommodation">
+              <option value="">Select preference</option>
+              <option>Budget / Hostel</option>
+              <option>3-Star Hotel</option>
+              <option>4-Star Hotel</option>
+              <option>5-Star / Luxury Resort</option>
+              <option>Boutique / Heritage Property</option>
+              <option>Villa / Private Stay</option>
+              <option>Homestay / Eco Lodge</option>
+              <option>Mix as needed</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Meal Preference</label>
+            <select id="meals">
+              <option value="">Select preference</option>
+              <option>Room Only</option>
+              <option>Breakfast Included</option>
+              <option>Half Board (B+D)</option>
+              <option>Full Board (B+L+D)</option>
+              <option>All Inclusive</option>
+              <option>No Preference</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional -->
+      <div class="form-section">
+        <div class="section-label">Additional Information</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Preferred Contact Method</label>
+            <select id="contactPref">
+              <option value="">Select preference</option>
+              <option>Email</option>
+              <option>WhatsApp</option>
+              <option>Phone Call</option>
+              <option>Any</option>
+            </select>
+          </div>
+          <div class="field"></div>
+          <div class="field full">
+            <label>Special Requests / Notes</label>
+            <textarea id="notes" placeholder="Special requirements, accessibility needs, dietary preferences, or anything else…"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="form-footer">
+      <div class="footer-note">
+        <strong>Response within 24 hours.</strong><br/>
+        Your details are kept strictly confidential.
+      </div>
+      <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">
+        <span id="btnText">Send Enquiry</span>
+        <div class="spinner" id="btnSpinner"></div>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" id="btnArrow">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+
+
+</div>
+
+<script>
+  const CONFIG = {
+    emailjs_public_key:  "wjTxG9CLuNYKr6Xj1",
+    emailjs_service_id:  "service_6eaezn2",
+    emailjs_template_id: "template_mbtv6sk",
+    recipient_email:     "operations.klvoyager@gmail.com",
+    recipient_name:      "KL Voyager Operations",
+    whatsapp_to:         "+919995857348",
+  };
+
+  emailjs.init(CONFIG.emailjs_public_key);
+
+  const ALL_DESTINATIONS = [
+    "Kerala","Rajasthan","Goa","Himachal Pradesh","Kashmir","Uttarakhand",
+    "North East India","Andaman Islands","Tamil Nadu","Karnataka","Maharashtra",
+    "Ladakh","Sikkim","Meghalaya","Spiti Valley","Coorg","Munnar","Wayanad",
+    "Jaipur","Udaipur","Jodhpur","Jaisalmer","Varanasi","Agra","Delhi",
+    "Mumbai","Bangalore","Chennai","Kolkata","Hyderabad","Pondicherry",
+    "Ranthambore","Jim Corbett","Kaziranga","Lakshadweep",
+    "Dubai","Abu Dhabi","Qatar","Oman","Jordan","Israel",
+    "Thailand","Bali","Singapore","Malaysia","Vietnam","Cambodia","Philippines",
+    "Indonesia","Myanmar","Sri Lanka","Nepal","Bhutan",
+    "Maldives","Seychelles","Mauritius","Zanzibar",
+    "Japan","South Korea","China","Hong Kong","Taiwan","Mongolia",
+    "Uzbekistan","Kazakhstan","Georgia","Armenia","Azerbaijan",
+    "Europe","France","Italy","Spain","Greece","Switzerland","Austria","Germany",
+    "Portugal","Netherlands","Belgium","Czech Republic","Hungary","Poland",
+    "Croatia","Turkey","Norway","Sweden","Iceland","Ireland","UK","Scotland",
+    "Malta","Cyprus","Eastern Europe","Balkans","Scandinavia",
+    "USA / Canada","New York","Las Vegas","California","Florida","Canada",
+    "Mexico","Costa Rica","Cuba","Peru","Brazil","Argentina","Chile","Colombia",
+    "Caribbean","Galapagos","Patagonia",
+    "Australia / NZ","Australia","New Zealand","Fiji","Tahiti",
+    "Africa / Safari","Kenya","Tanzania","South Africa","Morocco","Egypt",
+    "Namibia","Botswana","Zimbabwe","Rwanda","Ethiopia","Tunisia",
+    "Antarctica","Arctic","Greenland",
+  ];
+
+  let selectedDests = new Set();
+
+  function addDestination(val) {
+    val = val.trim();
+    if (!val || selectedDests.has(val)) return;
+    selectedDests.add(val);
+    syncDests();
+    document.querySelectorAll('.dest-tag').forEach(t => { if (t.dataset.val===val) t.classList.add('active'); });
+    renderPills();
+  }
+
+  function removeDestination(val) {
+    selectedDests.delete(val);
+    syncDests();
+    document.querySelectorAll('.dest-tag').forEach(t => { if (t.dataset.val===val) t.classList.remove('active'); });
+    renderPills();
+  }
+
+  function syncDests() { document.getElementById('destinations').value = [...selectedDests].join(', '); }
+
+  function renderPills() {
+    const wrap = document.getElementById('selectedTagsWrap');
+    if (!selectedDests.size) { wrap.innerHTML=''; return; }
+    wrap.innerHTML = [...selectedDests].map(d =>
+      `<span class="sel-dest-pill">${d}<button type="button" onclick="removeDestination('${d.replace(/'/g,"\\'")}')">×</button></span>`
+    ).join('');
+  }
+
+  document.querySelectorAll('.dest-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const val = tag.dataset.val;
+      if (selectedDests.has(val)) removeDestination(val); else addDestination(val);
+    });
+  });
+
+  const searchInput   = document.getElementById('destSearchInput');
+  const suggestionsEl = document.getElementById('destSuggestions');
+  let highlightIdx = -1, filteredList = [];
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    suggestionsEl.classList.remove('open'); highlightIdx = -1;
+    if (!q) return;
+    filteredList = ALL_DESTINATIONS.filter(d => d.toLowerCase().includes(q) && !selectedDests.has(d)).slice(0,8);
+    const exact = ALL_DESTINATIONS.some(d => d.toLowerCase()===q);
+    if (!exact && q.length>=2) { const ft=searchInput.value.trim(); if (!selectedDests.has(ft)) filteredList.push(`➕ Add "${ft}"`); }
+    if (!filteredList.length) return;
+    suggestionsEl.innerHTML = filteredList.map((d,i) => `<div class="dest-suggestion-item" data-idx="${i}">📍 ${d}</div>`).join('');
+    suggestionsEl.classList.add('open');
+  });
+
+  suggestionsEl.addEventListener('click', e => { const it=e.target.closest('.dest-suggestion-item'); if(it) pickSuggestion(parseInt(it.dataset.idx)); });
+
+  searchInput.addEventListener('keydown', e => {
+    const items = suggestionsEl.querySelectorAll('.dest-suggestion-item');
+    if (!items.length) return;
+    if (e.key==='ArrowDown') { e.preventDefault(); highlightIdx=Math.min(highlightIdx+1,items.length-1); updateHL(items); }
+    else if (e.key==='ArrowUp') { e.preventDefault(); highlightIdx=Math.max(highlightIdx-1,0); updateHL(items); }
+    else if (e.key==='Enter') { e.preventDefault(); pickSuggestion(highlightIdx>=0?highlightIdx:0); }
+    else if (e.key==='Escape') suggestionsEl.classList.remove('open');
+  });
+
+  function updateHL(items) { items.forEach((el,i)=>el.classList.toggle('highlighted',i===highlightIdx)); }
+
+  function pickSuggestion(idx) {
+    let val=filteredList[idx]; if(!val) return;
+    if (val.startsWith('➕ Add "')) val=val.replace(/^➕ Add "/,'').replace(/"$/,'');
+    addDestination(val); searchInput.value=''; suggestionsEl.classList.remove('open'); filteredList=[]; highlightIdx=-1;
+  }
+
+  document.addEventListener('click', e => { if (!e.target.closest('.dest-search-wrap')) suggestionsEl.classList.remove('open'); });
+
+  function renderChildAges() {
+    const count=parseInt(document.getElementById('numChildren').value)||0;
+    const wrap=document.getElementById('childAgesWrap'), grid=document.getElementById('agesGrid');
+    if (!count) { wrap.style.display='none'; grid.innerHTML=''; return; }
+    wrap.style.display='block'; grid.innerHTML='';
+    for (let i=1;i<=count;i++) {
+      const item=document.createElement('div'); item.className='age-item';
+      item.innerHTML=`<label>Child ${i}</label><select id="childAge${i}"><option value="">Age</option>${[...Array(10)].map((_,a)=>`<option value="${a+1}">${a+1} yr${a+1>1?'s':''}</option>`).join('')}</select>`;
+      grid.appendChild(item);
+    }
+  }
+
+  function getChildAges() {
+    const count=parseInt(document.getElementById('numChildren').value)||0;
+    if (!count) return 'None';
+    const ages=[];
+    for (let i=1;i<=count;i++) { const s=document.getElementById(`childAge${i}`); ages.push(s&&s.value!==''?s.value+' yr'+(parseInt(s.value)>1?'s':''):'Not specified'); }
+    return ages.map((a,i)=>`Child ${i+1}: ${a}`).join(' | ');
+  }
+
+  async function handleSubmit() {
+    document.getElementById('statusMsg').style.display='none';
+    const data={
+      fullName:v('fullName'), email:v('email'), phone:v('phone'),
+      nationality:v('nationality')||'Not specified', tourType:v('tourType')||'Not specified',
+      travelDate:v('travelDate')||'Not specified', duration:v('duration')||'Not specified',
+      destinations:v('destinations')||'Not specified', numAdults:v('numAdults')||'Not specified',
+      numChildren:v('numChildren')||'0', childAges:getChildAges(),
+      budget:v('budget')||'Not specified', accommodation:v('accommodation')||'Not specified',
+      meals:v('meals')||'Not specified', contactPref:v('contactPref')||'Not specified',
+      source:v('source')||'Not specified', notes:v('notes')||'None',
+      submittedAt:new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}),
+    };
+
+    if (!data.fullName||!data.email||!data.phone||!data.tourType||!data.travelDate||data.destinations==='Not specified') { showStatus('error','Please fill in all required fields and select at least one destination.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { showStatus('error','Please enter a valid email address.'); return; }
+    if (!data.numAdults||data.numAdults==='Not specified') { showStatus('error','Please select the number of adults.'); return; }
+
+    setLoading(true);
+
+    // Sync all values into Netlify hidden fields
+    document.getElementById('nl-fullName').value     = data.fullName;
+    document.getElementById('nl-email').value        = data.email;
+    document.getElementById('nl-phone').value        = data.phone;
+    document.getElementById('nl-nationality').value  = data.nationality;
+    document.getElementById('nl-tourType').value     = data.tourType;
+    document.getElementById('nl-travelDate').value   = data.travelDate;
+    document.getElementById('nl-duration').value     = data.duration;
+    document.getElementById('nl-destinations').value = data.destinations;
+    document.getElementById('nl-numAdults').value    = data.numAdults;
+    document.getElementById('nl-numChildren').value  = data.numChildren;
+    document.getElementById('nl-childAges').value    = data.childAges;
+    document.getElementById('nl-budget').value       = data.budget;
+    document.getElementById('nl-accommodation').value= data.accommodation;
+    document.getElementById('nl-meals').value        = data.meals;
+    document.getElementById('nl-contactPref').value  = data.contactPref;
+    document.getElementById('nl-source').value       = data.source;
+    document.getElementById('nl-notes').value        = data.notes;
+
+    let emailOk = false, netlifyOk = false;
+
+    // 1. Submit to Netlify Forms (captures in dashboard)
+    try {
+      const formEl = document.getElementById('enquiryForm');
+      const formData = new FormData(formEl);
+      formData.set('form-name', 'tour-enquiry');
+      const res = await fetch('/', { method: 'POST', body: formData });
+      netlifyOk = res.ok;
+    } catch(err) { console.error('Netlify Forms:', err); }
+
+    // 2. Send Email via EmailJS
+    try {
+      await emailjs.send(CONFIG.emailjs_service_id, CONFIG.emailjs_template_id, {
+        to_name:CONFIG.recipient_name, to_email:CONFIG.recipient_email,
+        from_name:data.fullName, from_email:data.email, reply_to:data.email,
+        subject:`New Tour Enquiry — ${data.destinations} | ${data.tourType} | ${data.numAdults} Adult(s)`,
+        message:buildEmailBody(data),
+      });
+      emailOk = true;
+    } catch(err) { console.error('EmailJS:', err); }
+
+    // 3. Send WhatsApp via Netlify Function
+    try {
+      await fetch('/.netlify/functions/send-whatsapp', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({to:CONFIG.whatsapp_to, message:buildWhatsAppMsg(data)}),
+      });
+    } catch(err) { console.error('WhatsApp:', err); }
+
+    resetForm(); setLoading(false);
+    if (emailOk || netlifyOk) showStatus('success',`✓ Enquiry submitted! Our team will contact you at ${data.email} within 24 hours.`);
+    else showStatus('error','Submission failed. Please try again or contact us directly.');
+  }
+
+  function buildEmailBody(d) {
+    const cl=d.numChildren==='0'?'None':`${d.numChildren} (${d.childAges})`;
+    const dmcMsg=buildDMCMessage(d);
+    return `TOUR PACKAGE ENQUIRY — KL VOYAGER\n${'═'.repeat(44)}\nReceived : ${d.submittedAt}\n${'═'.repeat(44)}\n\nGUEST INFORMATION\n${'─'.repeat(41)}\nFull Name     : ${d.fullName}\nEmail         : ${d.email}\nPhone/WhatsApp: ${d.phone}\nNationality   : ${d.nationality}\nContact Via   : ${d.contactPref}\n\nTOUR REQUIREMENTS\n${'─'.repeat(41)}\nTour Type     : ${d.tourType}\nDestinations  : ${d.destinations}\nTravel Date   : ${d.travelDate}\nDuration      : ${d.duration}\n\nTRAVELLER DETAILS\n${'─'.repeat(41)}\nAdults        : ${d.numAdults}\nChildren      : ${cl}\nTotal Pax     : ${totalPax(d)}\n\nBUDGET & PREFERENCES\n${'─'.repeat(41)}\nBudget Range  : ${d.budget}\nAccommodation : ${d.accommodation}\nMeal Plan     : ${d.meals}\n\nSOURCE & NOTES\n${'─'.repeat(41)}\nHeard From    : ${d.source}\nSpecial Notes : ${d.notes}\n\n${'═'.repeat(44)}\nPlease respond within 24 hours.\nReply to reach the guest directly.\nKL Voyager | enquiry.klvoyager.com\n${'═'.repeat(44)}\n\n\n${'─'.repeat(44)}\nDMC MESSAGE  (Copy and send to DMC — do not include guest contact details)\n${'─'.repeat(44)}\n${dmcMsg}\n${'─'.repeat(44)}`;
+  }
+
+  function buildDMCMessage(d) {
+    const cl = d.numChildren==='0' ? 'no children' : `${d.numChildren} child${d.numChildren>1?'ren':''} (${d.childAges})`;
+    const pax = totalPax(d);
+    return `Dear Team,\n\nWe are pleased to share a new tour enquiry received by KL Voyager and would like to request your best available package and rates for the details below.\n\nDESTINATION(S)  : ${d.destinations}\nTOUR TYPE       : ${d.tourType}\nTRAVEL DATE     : ${d.travelDate}\nDURATION        : ${d.duration}\nGROUP SIZE      : ${pax} (${d.numAdults} adult${d.numAdults>1?'s':''}, ${cl})\nNATIONALITY     : ${d.nationality}\n\nPREFERENCES\nAccommodation   : ${d.accommodation}\nMeal Plan       : ${d.meals}\nBudget Range    : ${d.budget}\n\nSPECIAL NOTES   : ${d.notes}\n\nKindly share your best quote at the earliest so we can revert to our guest promptly. Please include a day-wise itinerary, inclusions/exclusions, and any seasonal availability notes.\n\nLooking forward to your response.\n\nWarm regards,\nOperations Team\nKL Voyager\nenquiry.klvoyager.com`;
+  }
+
+  function buildWhatsAppMsg(d) {
+    const cl=d.numChildren==='0'?'None':`${d.numChildren} (${d.childAges})`;
+    return `🌏 *New Tour Enquiry — KL Voyager*\n\n👤 *Guest:* ${d.fullName}\n📱 *Phone:* ${d.phone}\n📧 *Email:* ${d.email}\n\n🗺️ *Destinations:* ${d.destinations}\n🏷️ *Tour Type:* ${d.tourType}\n📅 *Travel Date:* ${d.travelDate}\n⏱️ *Duration:* ${d.duration}\n\n👥 *Adults:* ${d.numAdults} | *Children:* ${cl}\n💰 *Budget:* ${d.budget}\n🏨 *Stay:* ${d.accommodation}\n\n📝 *Notes:* ${d.notes}\n\n_Received: ${d.submittedAt}_`;
+  }
+
+  function totalPax(d) {
+    const a=parseInt(d.numAdults)||0, c=parseInt(d.numChildren)||0;
+    if (!a) return 'Not specified';
+    return `${a+c} (${a} adult${a>1?'s':''}${c?', '+c+' child'+(c>1?'ren':''):''})`; 
+  }
+
+  function v(id) { return document.getElementById(id)?.value?.trim()||''; }
+  function resetForm() {
+    document.getElementById('enquiryForm').reset(); selectedDests.clear();
+    document.querySelectorAll('.dest-tag').forEach(t=>t.classList.remove('active'));
+    document.getElementById('destinations').value=''; document.getElementById('selectedTagsWrap').innerHTML='';
+    document.getElementById('childAgesWrap').style.display='none'; document.getElementById('agesGrid').innerHTML='';
+    searchInput.value=''; suggestionsEl.classList.remove('open');
+  }
+  function showStatus(type,msg) { const el=document.getElementById('statusMsg'); el.className=`status ${type}`; el.textContent=msg; el.style.display='block'; el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  function setLoading(on) { document.getElementById('submitBtn').disabled=on; document.getElementById('btnText').textContent=on?'Sending...':'Send Enquiry'; document.getElementById('btnSpinner').style.display=on?'block':'none'; document.getElementById('btnArrow').style.display=on?'none':'block'; }
+
+
+</script>
+</body>
+</html>

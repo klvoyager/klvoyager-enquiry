@@ -7,25 +7,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    /* Apple Silver / Aluminum palette
-       --apple-bg:       #F5F5F7   page background (apple.com gray)
-       --apple-card:     #FFFFFF   card surface
-       --apple-mid:      #E8E8ED   input fill / section bg
-       --apple-border:   #D2D2D7   borders (apple's divider color)
-       --apple-text:     #1D1D1F   primary text (apple.com body)
-       --apple-secondary:#6E6E73   secondary text (apple.com captions)
-       --apple-accent:   #0071E3   apple blue
-       --apple-gold:     #A07840   warm accent for brand                */
+    /* White & dark blue palette
+       #FFFFFF  page background / card surface
+       #F4F7FB  input fill / section bg
+       #C9D5E3  borders
+       #0B1F3A  primary text (navy)
+       #4A5B75  secondary text
+       #0B2E5C  dark blue accent (buttons, focus, active)
+       #1A4F8B  brand blue (labels, highlights)            */
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { background: #F5F5F7; }
+    html { background: #FFFFFF; }
 
     body {
       font-family: -apple-system, 'DM Sans', 'SF Pro Text', sans-serif;
-      background: #F5F5F7;
-      color: #1D1D1F;
+      background: #FFFFFF;
+      color: #0B1F3A;
       min-height: 100vh;
+      border-top: 6px solid #0B2E5C;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -61,12 +61,13 @@
       width: 160px;
       height: auto;
       max-width: 45vw;
+      opacity: 0.85;
     }
 
     .divider {
       width: 56px;
       height: 1px;
-      background: linear-gradient(90deg, transparent, #A07840, transparent);
+      background: linear-gradient(90deg, transparent, #1A4F8B, transparent);
       margin: 0 auto 22px;
     }
 
@@ -75,16 +76,16 @@
       font-size: clamp(28px, 4.5vw, 46px);
       font-weight: 300;
       line-height: 1.1;
-      color: #1D1D1F;
+      color: #0B1F3A;
       margin-bottom: 10px;
       letter-spacing: -0.01em;
     }
 
-    .header h1 em { font-style: italic; color: #A07840; }
+    .header h1 em { font-style: italic; color: #1A4F8B; }
 
     .header p {
       font-size: 15px;
-      color: #6E6E73;
+      color: #4A5B75;
       font-weight: 300;
       max-width: 420px;
       margin: 0 auto;
@@ -94,18 +95,19 @@
     /* ── Form Card ── */
     .form-card {
       background: #FFFFFF;
-      border: 1px solid #D2D2D7;
+      border: 1px solid #C9D5E3;
+      border-top: 4px solid #0B2E5C;
       border-radius: 18px;
       overflow: hidden;
       box-shadow:
         0 1px 0 rgba(0,0,0,0.04),
-        0 4px 16px rgba(0,0,0,0.06),
+        0 4px 16px rgba(11,31,58,0.08),
         0 12px 40px rgba(0,0,0,0.04);
     }
 
     .form-section {
       padding: 28px 32px;
-      border-bottom: 1px solid #E8E8ED;
+      border-bottom: 1px solid #E3EAF3;
     }
 
     .form-section:last-of-type { border-bottom: none; }
@@ -115,7 +117,7 @@
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #A07840;
+      color: #1A4F8B;
       margin-bottom: 18px;
       display: flex;
       align-items: center;
@@ -126,7 +128,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: #E8E8ED;
+      background: #E3EAF3;
     }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -148,7 +150,7 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: #6E6E73;
+      color: #4A5B75;
     }
 
     label .opt {
@@ -156,17 +158,17 @@
       font-weight: 400;
       text-transform: none;
       letter-spacing: 0;
-      color: #AEAEB2;
+      color: #8A9AB2;
       margin-left: 4px;
     }
 
-    label span.req { color: #A07840; margin-left: 2px; }
+    label span.req { color: #1A4F8B; margin-left: 2px; }
 
     input, select, textarea {
-      background: #F5F5F7;
-      border: 1px solid #D2D2D7;
+      background: #F4F7FB;
+      border: 1px solid #C9D5E3;
       border-radius: 10px;
-      color: #1D1D1F;
+      color: #0B1F3A;
       font-family: -apple-system, 'DM Sans', sans-serif;
       font-size: 15px;
       font-weight: 400;
@@ -177,34 +179,34 @@
       -webkit-appearance: none;
     }
 
-    input::placeholder, textarea::placeholder { color: #AEAEB2; }
+    input::placeholder, textarea::placeholder { color: #8A9AB2; }
 
     input:focus, select:focus, textarea:focus {
-      border-color: #0071E3;
+      border-color: #0B2E5C;
       background: #FFFFFF;
-      box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+      box-shadow: 0 0 0 3px rgba(11,46,92,0.15);
     }
 
     select {
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236E6E73' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A5B75' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 12px center;
-      background-color: #F5F5F7;
+      background-color: #F4F7FB;
       padding-right: 34px;
     }
 
-    select option { background: #fff; color: #1D1D1F; }
+    select option { background: #fff; color: #0B1F3A; }
     textarea { resize: vertical; min-height: 90px; line-height: 1.65; }
 
     /* ── Destination Search ── */
     .dest-search-wrap { position: relative; margin-bottom: 10px; }
 
     .dest-search-input {
-      background: #F5F5F7;
-      border: 1px solid #D2D2D7;
+      background: #F4F7FB;
+      border: 1px solid #C9D5E3;
       border-radius: 10px;
-      color: #1D1D1F;
+      color: #0B1F3A;
       font-family: -apple-system, 'DM Sans', sans-serif;
       font-size: 15px;
       padding: 11px 36px 11px 13px;
@@ -214,12 +216,12 @@
     }
 
     .dest-search-input:focus {
-      border-color: #0071E3;
+      border-color: #0B2E5C;
       background: #FFFFFF;
-      box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+      box-shadow: 0 0 0 3px rgba(11,46,92,0.15);
     }
 
-    .dest-search-input::placeholder { color: #AEAEB2; }
+    .dest-search-input::placeholder { color: #8A9AB2; }
 
     .dest-search-icon {
       position: absolute;
@@ -234,9 +236,9 @@
       top: calc(100% + 6px);
       left: 0; right: 0;
       background: #FFFFFF;
-      border: 1px solid #D2D2D7;
+      border: 1px solid #C9D5E3;
       border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(11,31,58,0.08);
       z-index: 100;
       max-height: 210px;
       overflow-y: auto;
@@ -248,7 +250,7 @@
     .dest-suggestion-item {
       padding: 10px 14px;
       font-size: 14px;
-      color: #1D1D1F;
+      color: #0B1F3A;
       cursor: pointer;
       transition: background 0.1s;
       display: flex;
@@ -261,13 +263,13 @@
 
     .dest-suggestion-item:hover,
     .dest-suggestion-item.highlighted {
-      background: #F5F5F7;
-      color: #0071E3;
+      background: #F4F7FB;
+      color: #0B2E5C;
     }
 
     .dest-suggestions::-webkit-scrollbar { width: 4px; }
     .dest-suggestions::-webkit-scrollbar-track { background: transparent; }
-    .dest-suggestions::-webkit-scrollbar-thumb { background: #D2D2D7; border-radius: 2px; }
+    .dest-suggestions::-webkit-scrollbar-thumb { background: #C9D5E3; border-radius: 2px; }
 
     /* Selected destination pills */
     .selected-tags-wrap {
@@ -283,15 +285,15 @@
       gap: 5px;
       padding: 5px 8px 5px 12px;
       border-radius: 20px;
-      background: #E8E8ED;
-      border: 1px solid #D2D2D7;
-      color: #1D1D1F;
+      background: #E3EAF3;
+      border: 1px solid #C9D5E3;
+      color: #0B1F3A;
       font-size: 13px;
       font-weight: 500;
     }
 
     .sel-dest-pill button {
-      background: #AEAEB2;
+      background: #8A9AB2;
       border: none;
       color: #fff;
       cursor: pointer;
@@ -307,7 +309,7 @@
       transition: background 0.15s;
     }
 
-    .sel-dest-pill button:hover { background: #6E6E73; }
+    .sel-dest-pill button:hover { background: #4A5B75; }
 
     /* Quick-pick tags */
     .quick-picks-wrap {
@@ -315,8 +317,8 @@
       flex-wrap: wrap;
       gap: 7px;
       padding: 12px;
-      background: #F5F5F7;
-      border: 1px solid #D2D2D7;
+      background: #F4F7FB;
+      border: 1px solid #C9D5E3;
       border-radius: 10px;
       margin-top: 8px;
     }
@@ -327,7 +329,7 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #AEAEB2;
+      color: #8A9AB2;
       margin-bottom: 4px;
     }
 
@@ -337,9 +339,9 @@
       gap: 5px;
       padding: 5px 12px;
       border-radius: 20px;
-      border: 1px solid #D2D2D7;
+      border: 1px solid #C9D5E3;
       background: #FFFFFF;
-      color: #1D1D1F;
+      color: #0B1F3A;
       font-size: 13px;
       font-family: -apple-system, 'DM Sans', sans-serif;
       cursor: pointer;
@@ -347,11 +349,11 @@
       user-select: none;
     }
 
-    .dest-tag:hover { border-color: #0071E3; color: #0071E3; background: #F0F6FF; }
+    .dest-tag:hover { border-color: #0B2E5C; color: #0B2E5C; background: #EEF3FA; }
 
     .dest-tag.active {
-      background: #0071E3;
-      border-color: #0071E3;
+      background: #0B2E5C;
+      border-color: #0B2E5C;
       color: #FFFFFF;
       font-weight: 500;
     }
@@ -379,7 +381,7 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: #6E6E73;
+      color: #4A5B75;
       margin-bottom: 8px;
     }
 
@@ -389,7 +391,7 @@
 
     .age-item label {
       font-size: 10px;
-      color: #AEAEB2;
+      color: #8A9AB2;
       text-transform: none;
       letter-spacing: 0;
       font-weight: 400;
@@ -399,7 +401,7 @@
 
     .children-hint {
       font-size: 12px;
-      color: #AEAEB2;
+      color: #8A9AB2;
       margin-top: 10px;
       font-style: italic;
     }
@@ -407,22 +409,22 @@
     /* ── Footer ── */
     .form-footer {
       padding: 22px 32px;
-      background: #F5F5F7;
-      border-top: 1px solid #E8E8ED;
+      background: #F4F7FB;
+      border-top: 1px solid #E3EAF3;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
     }
 
-    .footer-note { font-size: 12px; color: #AEAEB2; line-height: 1.6; }
-    .footer-note strong { color: #6E6E73; font-weight: 500; }
+    .footer-note { font-size: 12px; color: #8A9AB2; line-height: 1.6; }
+    .footer-note strong { color: #4A5B75; font-weight: 500; }
 
     .btn-submit {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: #0071E3;
+      background: #0B2E5C;
       color: #FFFFFF;
       border: none;
       border-radius: 980px;
@@ -436,8 +438,8 @@
       white-space: nowrap;
     }
 
-    .btn-submit:hover { background: #0077ED; }
-    .btn-submit:active { transform: scale(0.98); background: #006CDC; }
+    .btn-submit:hover { background: #143E74; }
+    .btn-submit:active { transform: scale(0.98); background: #08234A; }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-submit svg { transition: transform 0.2s; }
     .btn-submit:hover svg { transform: translateX(3px); }
@@ -469,13 +471,13 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
       font-weight: 300;
-      color: #1D1D1F;
+      color: #0B1F3A;
     }
 
     .badge {
-      background: #E8E8ED;
-      border: 1px solid #D2D2D7;
-      color: #6E6E73;
+      background: #E3EAF3;
+      border: 1px solid #C9D5E3;
+      color: #4A5B75;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -486,16 +488,16 @@
     .empty-state {
       text-align: center;
       padding: 44px 24px;
-      color: #AEAEB2;
+      color: #8A9AB2;
       font-size: 14px;
       background: #FFFFFF;
-      border: 1px dashed #D2D2D7;
+      border: 1px dashed #C9D5E3;
       border-radius: 12px;
     }
 
     .enquiry-card {
       background: #FFFFFF;
-      border: 1px solid #D2D2D7;
+      border: 1px solid #C9D5E3;
       border-radius: 12px;
       margin-bottom: 10px;
       overflow: hidden;
@@ -510,7 +512,7 @@
 
     .card-head {
       padding: 14px 18px;
-      background: #F5F5F7;
+      background: #F4F7FB;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -520,23 +522,23 @@
       transition: background 0.1s;
     }
 
-    .card-head:hover { background: #EBEBF0; }
+    .card-head:hover { background: #E8EEF6; }
 
     .card-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 18px;
       font-weight: 400;
-      color: #1D1D1F;
+      color: #0B1F3A;
     }
 
     .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .card-dest { font-size: 12px; color: #0071E3; font-weight: 500; }
-    .card-time { font-size: 11px; color: #AEAEB2; }
+    .card-dest { font-size: 12px; color: #0B2E5C; font-weight: 500; }
+    .card-time { font-size: 11px; color: #8A9AB2; }
 
-    .card-chevron { color: #AEAEB2; transition: transform 0.2s; flex-shrink: 0; }
+    .card-chevron { color: #8A9AB2; transition: transform 0.2s; flex-shrink: 0; }
     .card-chevron.open { transform: rotate(180deg); }
 
-    .card-body { display: none; padding: 16px 18px; border-top: 1px solid #E8E8ED; }
+    .card-body { display: none; padding: 16px 18px; border-top: 1px solid #E3EAF3; }
     .card-body.open { display: block; }
 
     .detail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px 18px; }
@@ -544,14 +546,14 @@
     .detail-item label {
       font-size: 10px;
       letter-spacing: 0.06em;
-      color: #AEAEB2;
+      color: #8A9AB2;
       text-transform: uppercase;
       display: block;
       margin-bottom: 2px;
       font-weight: 600;
     }
 
-    .detail-item p { font-size: 13px; color: #1D1D1F; }
+    .detail-item p { font-size: 13px; color: #0B1F3A; }
     .detail-item.wide { grid-column: 1 / -1; }
 
     .spinner {
@@ -623,7 +625,7 @@
             <input type="tel" id="phone" placeholder="+91 98765 43210"/>
           </div>
           <div class="field full" style="margin-top:-6px;">
-            <p style="font-size:11px;color:#A07840;font-weight:500;">At least one of email or phone is required.</p>
+            <p style="font-size:11px;color:#1A4F8B;font-weight:500;">At least one of email or phone is required.</p>
           </div>
           <div class="field">
             <label>Nationality</label>
@@ -689,8 +691,8 @@
             <input type="text" id="destSearchInput" class="dest-search-input"
               placeholder="Type a destination to search and add…" autocomplete="off"/>
             <svg class="dest-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="6.5" cy="6.5" r="4.5" stroke="#AEAEB2" stroke-width="1.4"/>
-              <path d="M10 10l3 3" stroke="#AEAEB2" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="#8A9AB2" stroke-width="1.4"/>
+              <path d="M10 10l3 3" stroke="#8A9AB2" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
             <div class="dest-suggestions" id="destSuggestions"></div>
           </div>

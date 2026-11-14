@@ -35,6 +35,17 @@
       padding: 52px 24px 88px;
     }
 
+    /* ── Logo watermark ── */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("/assets/klvoyager-logo.png") center / min(70vw, 560px) no-repeat;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
     /* ── Header ── */
     .header { text-align: center; margin-bottom: 44px; }
 
